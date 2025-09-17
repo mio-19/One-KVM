@@ -102,6 +102,7 @@ config_base_files() {
 install_base_packages() {
     echo "信息：在 chroot 环境中更新源并安装基础软件包..."
     run_in_chroot "
+    echo 'nameserver 1.1.1.1' > /etc/resolv.conf && echo 'nameserver 8.8.8.8' >> /etc/resolv.conf && \\
     apt-get update && \\
     apt install -y --no-install-recommends \\
         libxkbcommon-x11-0 nginx tesseract-ocr tesseract-ocr-eng tesseract-ocr-chi-sim \\
