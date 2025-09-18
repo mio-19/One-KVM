@@ -102,6 +102,7 @@ config_base_files() {
 install_base_packages() {
     echo "信息：在 chroot 环境中更新源并安装基础软件包..."
     run_in_chroot "
+    rm -f /etc/resolv.conf && echo 'nameserver 1.1.1.1' > /etc/resolv.conf && echo 'nameserver 8.8.8.8' >> /etc/resolv.conf && \\
     apt-get update && \\
     apt install -y --no-install-recommends \\
         libxkbcommon-x11-0 nginx tesseract-ocr tesseract-ocr-eng tesseract-ocr-chi-sim \\
@@ -110,7 +111,10 @@ install_base_packages() {
         python3-pip net-tools libavcodec59 libavformat59 libavutil57 libswscale6 \\
         libavfilter8 libavdevice59 v4l-utils libv4l-0 nano unzip && \\
     apt clean && \\
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \\
+    curl -Lo /tmp/a.deb https://github.com/mofeng-git/One-KVM/releases/download/v250528/linux-image-legacy-meson_24.5.0-trunk_armhf__5.9-rc7-S7821-D0696-P0b52-Cf130Hfe66-HK01ba-Va132-B64c0-R448a.deb && \\
+    dpkg -i /tmp/a.deb && \
+    rm /tmp/a.deb
     "
 }
 

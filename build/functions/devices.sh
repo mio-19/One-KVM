@@ -5,10 +5,13 @@
 onecloud_rootfs() {
     local unpacker="$SRCPATH/image/onecloud/AmlImg_v0.3.1_linux_amd64"
     local source_image="$SRCPATH/image/onecloud/Armbian_by-SilentWind_24.5.0-trunk_Onecloud_bookworm_legacy_5.9.0-rc7_minimal_support-dvd-emulation.burn.img"
+    # this image has more build script open sourced at https://github.com/hzyitc/armbian-onecloud. To support dvd emulation: see https://github.com/mofeng-git/One-KVM/issues/114 install that kernel.
+    mkdir -p "$(dirname "$source_image")"
+    curl -L "https://github.com/hzyitc/armbian-onecloud/releases/download/ci-20250823-102917-UTC/Armbian-unofficial_25.11.0-trunk_Onecloud_bookworm_current_6.12.43.burn.img.xz" | xz -d > "$source_image"
     local bootfs_img="$TMPDIR/bootfs.img"
     local rootfs_img="$TMPDIR/rootfs.img"
-    local bootfs_sparse="$TMPDIR/6.boot.PARTITION.sparse"
-    local rootfs_sparse="$TMPDIR/7.rootfs.PARTITION.sparse"
+    local bootfs_sparse="$TMPDIR/8.boot.PARTITION.sparse"
+    local rootfs_sparse="$TMPDIR/10.rootfs.PARTITION.sparse"
     local bootfs_loopdev="" # 存储 bootfs 使用的 loop 设备
     local add_size_mb=400
 
@@ -21,7 +24,7 @@ onecloud_rootfs() {
     sudo chmod +x "$unpacker" || { echo "错误：设置 AmlImg 工具执行权限失败" >&2; exit 1; }
 
     # 自动下载源镜像文件（如果不存在）
-    download_file_if_missing "$source_image" || { echo "错误：下载 Onecloud 原始镜像失败" >&2; exit 1; }
+    #download_file_if_missing "$source_image" || { echo "错误：下载 Onecloud 原始镜像失败" >&2; exit 1; }
 
     echo "信息：解包 Onecloud burn 镜像..."
     sudo "$unpacker" unpack "$source_image" "$TMPDIR" || { echo "错误：解包失败" >&2; exit 1; }
