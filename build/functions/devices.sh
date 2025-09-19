@@ -7,7 +7,7 @@ onecloud_rootfs() {
     local source_image="$SRCPATH/image/onecloud/Armbian_by-SilentWind_24.5.0-trunk_Onecloud_bookworm_legacy_5.9.0-rc7_minimal_support-dvd-emulation.burn.img"
     # this image has more build script open sourced at https://github.com/hzyitc/armbian-onecloud. To support dvd emulation: see https://github.com/mofeng-git/One-KVM/issues/114 install that kernel.
     mkdir -p "$(dirname "$source_image")"
-    curl -L "https://github.com/hzyitc/armbian-onecloud/releases/download/ci-20250823-102917-UTC/Armbian-unofficial_25.11.0-trunk_Onecloud_bookworm_current_6.12.43.burn.img.xz" | xz -d > "$source_image"
+    curl -L "https://github.com/hzyitc/armbian-onecloud/releases/download/ci-20250823-102917-UTC/Armbian-unofficial_25.11.0-trunk_Onecloud_bookworm_current_6.12.43_minimal.burn.img.xz" | xz -d > "$source_image"
     local bootfs_img="$TMPDIR/bootfs.img"
     local rootfs_img="$TMPDIR/rootfs.img"
     local bootfs_sparse="$TMPDIR/8.boot.PARTITION.sparse"
